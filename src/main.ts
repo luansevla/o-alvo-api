@@ -1,31 +1,32 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import express from 'express';
 
-// Instância do Express para a Vercel
-const server = express();
+export async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
 
-export const bootstrap = async () => {
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
-
+  // Resolve o erro de rede local do Postman
   app.enableCors();
 
-  // Configuração do Swagger
+  // Swagger - Agora em /api/docs para evitar conflitos
   const config = new DocumentBuilder()
-    .setTitle('O Alvo API')
-    .setDescription('Documentação da API de Células')
+    .setTitle('Zion API')
+    .setDescription('Documentação da API Zion')
     .setVersion('1.0')
     .build();
-
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document); // Rota do Swagger: /api
+  SwaggerModule.setup('api/docs', app, document);
 
-  await app.init();
-};
+  // 2. Condicional para rodar localmente no Windows ou na Vercel
+  if (process.env.NODE_ENV !== 'production') {
+    await app.listen(process.env.PORT || 3000);
+  } else {
+    // Na Vercel, apenas inicializamos e retornamos o motor do Express
+    await app.init();
+    return app.getHttpAdapter().getInstance();
+  }
+}
 
+// 3. O SEGREDO: Exportamos o resultado da execução para a Vercel
+const server = bootstrap();
 export default server;
-
-// Inicializa o Nest
-bootstrap();
