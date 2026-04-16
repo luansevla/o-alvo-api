@@ -1,30 +1,31 @@
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import express from 'express';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      whitelist: true,
-    }),
-  );
+// Instância do Express para a Vercel
+const server = express();
 
+export const bootstrap = async () => {
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+
+  app.enableCors();
+
+  // Configuração do Swagger
   const config = new DocumentBuilder()
-    .setTitle('O Alvo Connect API')
-    .setDescription('API para gestão de células e membros')
+    .setTitle('O Alvo API')
+    .setDescription('Documentação da API de Células')
     .setVersion('1.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document); // Rota para acessar a documentação
-  app.enableCors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true,
-  });
-  await app.listen(3000);
-}
-export default bootstrap();
+  SwaggerModule.setup('api', app, document); // Rota do Swagger: /api
+
+  await app.init();
+};
+
+export default server;
+
+// Inicializa o Nest
+bootstrap();
