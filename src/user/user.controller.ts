@@ -1,0 +1,52 @@
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+  NotFoundException,
+} from '@nestjs/common';
+import { UserService } from './user.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './schema/user.schema';
+
+@Controller('users')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
+
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.userService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(id);
+  }
+
+  @Get('email/:email')
+  async getByEmail(@Param('email') email: string): Promise<User> {
+    const user = await this.userService.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException(`Usuário com e-mail ${email} não encontrado`);
+    }
+    return user;
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: any) {
+    return this.userService.update(id, updateUserDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.userService.remove(id);
+  }
+}
