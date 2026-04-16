@@ -3,8 +3,7 @@ import { createCipheriv, createDecipheriv, createHash } from 'crypto';
 const ALGORITHM = 'aes-256-ctr';
 
 // Pega a chave do ENV ou uma fallback
-const RAW_KEY =
-  process.env.CRYPTO_KEY || 'U2FsdGVkX1/IttzeXuD2DEw2zoQcrCWAHOUOESknA/Q=';
+const RAW_KEY = process.env.SECRET!;
 
 // FAZ O HASH DA CHAVE: Isso garante que 'KEY' tenha sempre 32 bytes
 const KEY = createHash('sha256').update(RAW_KEY).digest();
