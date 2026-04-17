@@ -78,4 +78,8 @@ export class CreateCellDto {
   @IsBoolean()
   @ApiProperty({ type: Boolean })
   ativa: boolean;
+
+  @IsString()
+  @ApiProperty({ type: String })
+  link: string;
 }

@@ -43,6 +43,9 @@ export class Cell extends Document {
 
   @Prop({ default: true })
   ativa: boolean;
+
+  @Prop({ required: true })
+  link: string;
 }
 
 export const CellSchema = SchemaFactory.createForClass(Cell);

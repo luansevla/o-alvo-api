@@ -79,4 +79,8 @@ export class UpdateCellDto extends PartialType(CreateCellDto) {
   @IsBoolean()
   @ApiProperty({ type: Boolean })
   ativa: boolean;
+
+  @IsString()
+  @ApiProperty({ type: String })
+  link: string;
 }
