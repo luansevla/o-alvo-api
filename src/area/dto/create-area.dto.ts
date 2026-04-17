@@ -12,6 +12,11 @@ export class CreateAreaDto {
   @ApiProperty({ type: String })
   cidade: string;
 
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ type: String })
+  sigla: string;
+
   @IsArray()
   @IsOptional()
   @ApiProperty({ type: [String] })

@@ -69,11 +69,29 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiProperty({ type: Boolean })
   isActive?: boolean;
 
-  @IsEnum(['ADMIN', 'PASTOR', 'DIACONO', 'LIDER', 'MEMBRO'])
+  @IsEnum([
+    'ADMIN',
+    'PASTOR',
+    'DIÁCONO',
+    'SUPERVISOR',
+    'COLIDER',
+    'ASP. DIÁCONO',
+    'LIDER',
+    'MEMBRO',
+  ])
   @IsOptional()
   @ApiProperty({
     type: String,
-    enum: ['ADMIN', 'PASTOR', 'DIACONO', 'LIDER', 'MEMBRO'],
+    enum: [
+      'ADMIN',
+      'PASTOR',
+      'DIÁCONO',
+      'SUPERVISOR',
+      'COLIDER',
+      'ASP. DIÁCONO',
+      'LIDER',
+      'MEMBRO',
+    ],
     required: false,
     example: 'MEMBRO',
   })

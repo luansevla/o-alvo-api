@@ -61,7 +61,16 @@ export class User extends Document {
 
   @Prop({
     type: String,
-    enum: ['ADMIN', 'PASTOR', 'DIACONO', 'LIDER', 'MEMBRO'],
+    enum: [
+      'ADMIN',
+      'PASTOR',
+      'DIÁCONO',
+      'SUPERVISOR',
+      'COLIDER',
+      'ASP. DIÁCONO',
+      'LIDER',
+      'MEMBRO',
+    ],
     default: 'MEMBRO',
   })
   accessLevel: string;

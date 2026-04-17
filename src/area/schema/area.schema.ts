@@ -9,6 +9,9 @@ export class Area extends Document {
   @Prop({ required: true })
   cidade: string;
 
+  @Prop()
+  sigla: string;
+
   @Prop({ type: [{ type: [String], ref: 'User' }] })
   pastores_gestores: String[];
 }

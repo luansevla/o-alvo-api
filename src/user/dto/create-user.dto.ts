@@ -83,7 +83,7 @@ export class CreateUserDto {
   @IsOptional()
   @ApiProperty({
     type: String,
-    enum: ['ADMIN', 'PASTOR', 'DIACONO', 'LIDER', 'MEMBRO'],
+    enum: ['ADMIN', 'PASTOR', 'DIÁCONO', 'SUPERVISOR', 'COLIDER', 'ASP. DIÁCONO', 'LIDER', 'MEMBRO'],
     required: false,
     example: 'MEMBRO',
   })
